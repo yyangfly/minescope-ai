@@ -1,0 +1,2 @@
+"""Mining intelligence ingestion pipeline."""
+

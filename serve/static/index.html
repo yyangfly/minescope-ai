@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mining Intelligence</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f6f7f4;
+        --panel: #ffffff;
+        --panel-2: #eef3ef;
+        --ink: #1e2521;
+        --muted: #657168;
+        --line: #d8ded8;
+        --accent: #1f7a5a;
+        --accent-2: #b56b22;
+        --danger: #b42318;
+        --shadow: 0 14px 40px rgba(29, 41, 33, 0.08);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
+        line-height: 1.45;
+      }
+
+      .shell {
+        min-height: 100vh;
+        display: grid;
+        grid-template-columns: minmax(320px, 420px) minmax(0, 1fr);
+      }
+
+      .query-pane {
+        background: var(--panel);
+        border-right: 1px solid var(--line);
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+      }
+
+      .brand {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 22px;
+        font-weight: 700;
+        letter-spacing: 0;
+      }
+
+      .status {
+        min-width: 72px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 5px 10px;
+        color: var(--muted);
+        font-size: 12px;
+        text-align: center;
+        white-space: nowrap;
+      }
+
+      textarea,
+      input,
+      select {
+        width: 100%;
+        border: 1px solid var(--line);
+        background: #fff;
+        color: var(--ink);
+        border-radius: 8px;
+        font: inherit;
+      }
+
+      textarea {
+        min-height: 150px;
+        resize: vertical;
+        padding: 14px;
+      }
+
+      input,
+      select {
+        min-height: 40px;
+        padding: 8px 10px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 7px;
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 600;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+
+      .checks {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .check {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 7px 10px;
+        color: var(--ink);
+        background: #fff;
+        font-size: 13px;
+      }
+
+      .check input {
+        width: 16px;
+        min-height: 16px;
+        margin: 0;
+        accent-color: var(--accent);
+      }
+
+      .actions {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+
+      button {
+        border: 0;
+        border-radius: 8px;
+        min-height: 42px;
+        padding: 0 16px;
+        font: inherit;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .primary {
+        background: var(--accent);
+        color: white;
+        flex: 1;
+      }
+
+      .secondary {
+        background: var(--panel-2);
+        color: var(--ink);
+      }
+
+      button:disabled {
+        cursor: wait;
+        opacity: 0.66;
+      }
+
+      .examples {
+        display: grid;
+        gap: 8px;
+      }
+
+      .example {
+        text-align: left;
+        background: #fff;
+        color: var(--ink);
+        border: 1px solid var(--line);
+        min-height: auto;
+        padding: 10px 12px;
+        font-weight: 500;
+      }
+
+      .results-pane {
+        padding: 24px;
+        overflow: auto;
+      }
+
+      .summary {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        box-shadow: var(--shadow);
+        padding: 20px;
+      }
+
+      .summary-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: flex-start;
+        margin-bottom: 14px;
+      }
+
+      h2 {
+        margin: 0;
+        font-size: 18px;
+        letter-spacing: 0;
+      }
+
+      .meta {
+        color: var(--muted);
+        font-size: 13px;
+        white-space: nowrap;
+      }
+
+      .answer {
+        white-space: pre-wrap;
+        font-size: 15px;
+      }
+
+      .empty {
+        color: var(--muted);
+        min-height: 220px;
+        display: grid;
+        place-items: center;
+        text-align: center;
+      }
+
+      .citations {
+        margin-top: 18px;
+        display: grid;
+        gap: 10px;
+      }
+
+      .citation {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 14px;
+      }
+
+      .citation-top {
+        display: flex;
+        gap: 10px;
+        justify-content: space-between;
+      }
+
+      .citation-title {
+        margin: 0;
+        font-weight: 700;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        border-radius: 999px;
+        padding: 3px 8px;
+        background: #eef3ef;
+        color: var(--accent);
+        font-size: 12px;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+
+      .snippet {
+        margin: 8px 0 0;
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .link {
+        color: var(--accent-2);
+        text-decoration: none;
+        overflow-wrap: anywhere;
+      }
+
+      details {
+        margin-top: 18px;
+      }
+
+      summary {
+        cursor: pointer;
+        color: var(--muted);
+        font-weight: 700;
+      }
+
+      pre {
+        overflow: auto;
+        background: #202923;
+        color: #f1f5ef;
+        border-radius: 8px;
+        padding: 14px;
+        font-size: 12px;
+      }
+
+      .error {
+        border-color: rgba(180, 35, 24, 0.35);
+        color: var(--danger);
+      }
+
+      @media (max-width: 860px) {
+        .shell {
+          grid-template-columns: 1fr;
+        }
+
+        .query-pane {
+          border-right: 0;
+          border-bottom: 1px solid var(--line);
+        }
+
+        .results-pane {
+          padding: 16px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <section class="query-pane">
+        <div class="brand">
+          <h1>Mining Intelligence</h1>
+          <div class="status" id="status">Loading</div>
+        </div>
+
+        <div>
+          <label for="question">问题</label>
+          <textarea id="question">近 7 天澳洲锂出口政策有何变化?</textarea>
+        </div>
+
+        <div class="grid">
+          <div>
+            <label for="topK">Top K</label>
+            <select id="topK">
+              <option value="3">3</option>
+              <option value="5" selected>5</option>
+              <option value="10">10</option>
+            </select>
+          </div>
+          <div>
+            <label for="days">时间</label>
+            <select id="days">
+              <option value="">自动</option>
+              <option value="7">近 7 天</option>
+              <option value="30">近 30 天</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label>来源</label>
+          <div class="checks">
+            <span class="check"><input type="checkbox" value="news" />新闻</span>
+            <span class="check"><input type="checkbox" value="policy" />政策</span>
+            <span class="check"><input type="checkbox" value="price" />价格</span>
+          </div>
+        </div>
+
+        <div>
+          <label>回答模式</label>
+          <div class="checks">
+            <span class="check"><input id="useLlm" type="checkbox" checked />LLM 自然回答</span>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="primary" id="ask">查询</button>
+          <button class="secondary" id="clear">清空</button>
+        </div>
+
+        <div class="examples">
+          <button class="example">最近镍相关政策是否提到出口限制或许可?</button>
+          <button class="example">BHP 最近收盘价是多少?</button>
+          <button class="example">过去 30 天铜矿相关新闻主要集中在哪些国家?</button>
+        </div>
+      </section>
+
+      <section class="results-pane">
+        <section class="summary" id="summary">
+          <div class="empty">等待查询</div>
+        </section>
+        <section class="citations" id="citations"></section>
+      </section>
+    </main>
+
+    <script>
+      const $ = (selector) => document.querySelector(selector);
+      const $$ = (selector) => Array.from(document.querySelectorAll(selector));
+
+      const question = $("#question");
+      const status = $("#status");
+      const summary = $("#summary");
+      const citations = $("#citations");
+      const ask = $("#ask");
+      let corpusStats = null;
+      let activeRequestId = 0;
+      let activeController = null;
+
+      function isoDaysAgo(days) {
+        const date = new Date(Date.now() - Number(days) * 24 * 60 * 60 * 1000);
+        return date.toISOString();
+      }
+
+      function selectedCategories() {
+        return $$(".check input:checked").map((input) => input.value);
+      }
+
+      function escapeHtml(value) {
+        return String(value ?? "")
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;");
+      }
+
+      function answerModeLabel(mode) {
+        const labels = {
+          llm: "大模型回答",
+          llm_cached: "大模型缓存",
+          local_natural_summary: "本地自然摘要",
+          local_price_summary: "本地价格摘要",
+          local_summary: "本地证据摘要",
+          empty: "无结果",
+        };
+        return labels[mode] || "本地证据摘要";
+      }
+
+      function render(result) {
+        const count = result.citations?.length ?? 0;
+        const mode = result.answer_mode ? ` · ${answerModeLabel(result.answer_mode)}` : "";
+        const error = "";
+        const note = result.retrieval_note ? `<p class="snippet">${escapeHtml(result.retrieval_note)}</p>` : "";
+        summary.classList.remove("error");
+        summary.innerHTML = `
+          <div class="summary-head">
+            <h2>${escapeHtml(result.question)}</h2>
+            <div class="meta">${count} 条引用${escapeHtml(mode)}</div>
+          </div>
+          <div class="answer">${escapeHtml(result.answer)}</div>
+          ${note}
+          ${error}
+          <details>
+            <summary>JSON</summary>
+            <pre>${escapeHtml(JSON.stringify(result, null, 2))}</pre>
+          </details>
+        `;
+
+        citations.innerHTML = (result.citations || [])
+          .map((item) => {
+            const date = item.published_at ? new Date(item.published_at).toLocaleDateString("zh-CN") : "";
+            return `
+              <article class="citation">
+                <div class="citation-top">
+                  <p class="citation-title">${escapeHtml(item.title)}</p>
+                  <span class="badge">${escapeHtml(item.category)} · ${escapeHtml(item.score)}</span>
+                </div>
+                <p class="snippet">${escapeHtml(date)} · ${escapeHtml(item.source)}</p>
+                <p class="snippet">${escapeHtml(item.snippet)}</p>
+                ${item.url ? `<a class="link" href="${escapeHtml(item.url)}" target="_blank" rel="noreferrer">${escapeHtml(item.url)}</a>` : ""}
+              </article>
+            `;
+          })
+          .join("");
+      }
+
+      async function runQuery() {
+        const q = question.value.trim();
+        if (!q) return;
+        if (activeController) activeController.abort();
+        activeController = new AbortController();
+        const requestId = ++activeRequestId;
+
+        const days = $("#days").value;
+        const categories = selectedCategories();
+        const payload = {
+          q,
+          top_k: Number($("#topK").value),
+          use_llm: $("#useLlm").checked,
+        };
+        if (days) payload.start_date = isoDaysAgo(days);
+        if (categories.length) payload.categories = categories;
+
+        ask.disabled = true;
+        status.textContent = "Running";
+        try {
+          const response = await fetch("/query", {
+            method: "POST",
+            headers: { "Content-Type": "application/json; charset=utf-8" },
+            body: JSON.stringify(payload),
+            signal: activeController.signal,
+          });
+          if (!response.ok) throw new Error(`${response.status} ${response.statusText}`);
+          const result = await response.json();
+          if (requestId !== activeRequestId) return;
+          render(result);
+          status.textContent = "Done";
+        } catch (error) {
+          if (error.name === "AbortError") return;
+          if (requestId !== activeRequestId) return;
+          summary.classList.add("error");
+          summary.innerHTML = `<div class="answer">${escapeHtml(error.message)}</div>`;
+          citations.innerHTML = "";
+          status.textContent = "Error";
+        } finally {
+          if (requestId === activeRequestId) {
+            ask.disabled = false;
+          }
+        }
+      }
+
+      async function loadStats() {
+        try {
+          const response = await fetch("/stats");
+          if (!response.ok) throw new Error("stats failed");
+          corpusStats = await response.json();
+          const modeLabel = corpusStats.mode === "real" ? "Real" : corpusStats.mode === "fixture" ? "Fixture" : "Mixed";
+          const llmLabel = corpusStats.llm_configured ? "LLM" : "No LLM";
+          status.textContent = `${modeLabel} · ${corpusStats.total} · ${llmLabel}`;
+        } catch {
+          status.textContent = "Ready";
+        }
+      }
+
+      ask.addEventListener("click", runQuery);
+      $("#clear").addEventListener("click", () => {
+        question.value = "";
+        question.focus();
+      });
+      question.addEventListener("keydown", (event) => {
+        if ((event.ctrlKey || event.metaKey) && event.key === "Enter") runQuery();
+      });
+      $$(".example").forEach((button) => {
+        button.addEventListener("click", () => {
+          question.value = button.textContent.trim();
+          runQuery();
+        });
+      });
+      loadStats();
+    </script>
+  </body>
+</html>

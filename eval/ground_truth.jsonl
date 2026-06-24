@@ -1,0 +1,20 @@
+{"id":"q01","question":"近 7 天澳洲锂出口政策有何变化?","answer":"应检索澳大利亚、锂、出口和政策相关的近期政策证据。","expected_keywords":["Australia","lithium","export","policy"]}
+{"id":"q02","question":"过去 30 天铜矿相关新闻主要集中在哪些国家?","answer":"应返回铜矿新闻并从引用中归纳国家分布。","expected_keywords":["copper","mining","news"]}
+{"id":"q03","question":"最近镍相关政策是否提到出口限制或许可?","answer":"应检索镍、出口限制、许可和监管文件。","expected_keywords":["nickel","export","permit","policy"]}
+{"id":"q04","question":"铁矿石相关公司价格最近是否有明显波动?","answer":"应返回矿业股票或 ETF 的价格记录，并比较 close/open/high/low。","expected_keywords":["iron ore","price","close"]}
+{"id":"q05","question":"critical minerals 的政府公告最近有哪些重点?","answer":"应返回关键矿产政策公告并概括重点。","expected_keywords":["critical minerals","policy","government"]}
+{"id":"q06","question":"锂矿新闻与价格数据是否显示供应紧张?","answer":"应同时召回锂新闻和价格记录，避免脱离引用判断。","expected_keywords":["lithium","supply","price"]}
+{"id":"q07","question":"过去 30 天加拿大矿业政策有什么新变化?","answer":"应检索加拿大、矿业、政策相关文件。","expected_keywords":["Canada","mining","policy"]}
+{"id":"q08","question":"rare earth 相关政策最近涉及哪些机构?","answer":"应返回稀土政策引用和发布机构。","expected_keywords":["rare earth","policy","agency"]}
+{"id":"q09","question":"BHP 最近收盘价是多少?","answer":"应返回 BHP 的价格记录和日期。","expected_keywords":["BHP","close","price"]}
+{"id":"q10","question":"RIO 最近价格记录有哪些?","answer":"应返回 RIO 的价格数据。","expected_keywords":["RIO","close","price"]}
+{"id":"q11","question":"最近 7 天矿业新闻有哪些高频主题?","answer":"应从新闻引用中归纳矿种、国家、生产或贸易主题。","expected_keywords":["mining","news","production"]}
+{"id":"q12","question":"美国关键矿产政策近期是否提到能源部门或地质调查机构?","answer":"应检索美国官方政策来源和机构名。","expected_keywords":["United States","critical minerals","energy","USGS"]}
+{"id":"q13","question":"最近铜价代理资产有哪些价格记录?","answer":"应召回铜相关股票或 ETF 价格数据，如 FCX、SCCO、COPX。","expected_keywords":["copper","FCX","SCCO","COPX","close"]}
+{"id":"q14","question":"印尼镍矿相关新闻最近有什么变化?","answer":"应检索 Indonesia、nickel、mining 新闻。","expected_keywords":["Indonesia","nickel","mining"]}
+{"id":"q15","question":"锂相关的矿业公司最近价格和新闻是否一致?","answer":"应同时检索 ALB/SQM/LIT 等价格与锂新闻。","expected_keywords":["lithium","ALB","SQM","LIT","news"]}
+{"id":"q16","question":"过去 30 天出口、关税或 royalty 相关政策有哪些?","answer":"应返回出口、关税、royalty 或税费政策证据。","expected_keywords":["export","tariff","royalty","policy"]}
+{"id":"q17","question":"矿业许可和环境审批相关公告有哪些?","answer":"应检索 permit、approval、environment、mining policy。","expected_keywords":["permit","approval","environment","mining"]}
+{"id":"q18","question":"最近稀土供应相关新闻有哪些?","answer":"应返回 rare earth supply 新闻。","expected_keywords":["rare earth","supply","news"]}
+{"id":"q19","question":"哪些矿业资产近 30 天有最高成交量记录?","answer":"应在价格元数据中比较 volume。","expected_keywords":["volume","price","close"]}
+{"id":"q20","question":"近 7 天政策和新闻是否都提到了锂?","answer":"应分别召回 policy 和 news 类别中的 lithium 证据。","expected_keywords":["lithium","policy","news"]}
