@@ -1,5 +1,11 @@
 # Mining Intelligence Aggregator
 
+## Live Demo
+
+Demo URL: https://minescope-ai.onrender.com
+
+Render free instances may sleep after inactivity. If the first visit is slow, wait about one minute for the service to wake up.
+
 24h interview implementation for a mining news + policy + price aggregation pipeline.
 
 ## Layout
