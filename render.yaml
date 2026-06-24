@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: minescope-ai
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt && python -m pipeline.ingest --db data/mining_knowledge.sqlite --offline-fixture
+    startCommand: uvicorn serve.app:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: MINING_DB_PATH
+        value: data/mining_knowledge.sqlite
